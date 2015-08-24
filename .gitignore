@@ -1,0 +1,4 @@
+.vagrant
+*.vdi
+inventory
+config.yml

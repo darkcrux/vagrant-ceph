@@ -1,0 +1,35 @@
+---
+ceph:
+  # number of nodes in the cluster
+  nodes: 1
+  # number of nodes acting as mons. should be odd number of mons
+  mons: 1
+  # number of osds per node. min of two if only 1 node
+  osd_per_node: 2
+  # in kBs
+  osd_size: 1000000
+  vars:
+    all:
+      ansible_ssh_user: vagrant
+      ansible_ssh_private_key_file: ~/.vagrant.d/insecure_private_key
+      ceph_stable: true
+      ceph_stable_key: https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc
+      ceph_stable_release: hammer
+      # generate with UUIDGEN
+      fsid: fe463b7a-5f18-4a34-a8ed-02b5efa89214
+      monitor_interface: eth1
+      # uncomment this if using only 1 node
+      common_single_host_mode: true
+    mons:
+      # generate with `python ceph-key.py` 
+      monitor_secret: AQBK5NdVAAAAABAAKR126FNE6uQxRdnSBuxrag==
+    osds:
+      public_network: 10.0.5.0/24
+      cluster_network: 10.0.6.0/24
+      journal_collocation: true
+      journal_size: 1000
+      # devices will be added based on `osd_per_node`, no need to add here.
+
+vm:
+  cpus: 1
+  memory: 512
