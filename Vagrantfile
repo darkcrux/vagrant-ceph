@@ -23,6 +23,9 @@ inventory_template = %{
 
 [osds:vars]
 %osds_vars%
+
+[rgws:vars]
+%rgws_vars%
 }
 
 ceph_config = YAML.load_file('config.yml') rescue YAML.load_file('config.yml.example')
@@ -46,6 +49,7 @@ rgw_def = 'ceph0'
 var_def = ceph_config['ceph']['vars']['all'].map{ |k,v| "#{k}=#{v}" }.join("\n")
 monsvar_def = ceph_config['ceph']['vars']['mons'].map{ |k,v| "#{k}=#{v}" }.join("\n")
 osdsvar_def = ceph_config['ceph']['vars']['osds'].map{ |k,v| "#{k}=#{v}" }.join("\n")
+rgwsvar_def = ceph_config['ceph']['vars']['rgws'].map{ |k,v| "#{k}=#{v}" }.join("\n")
 
 inventory = inventory_template.gsub('%nodes%', nodes_def)
 inventory = inventory.gsub('%mons%', mon_def)
@@ -54,6 +58,7 @@ inventory = inventory.gsub('%rgws%', rgw_def)
 inventory = inventory.gsub('%vars%',  var_def)
 inventory = inventory.gsub('%mons_vars%', monsvar_def)
 inventory = inventory.gsub('%osds_vars%', osdsvar_def)
+inventory = inventory.gsub('%rgws_vars%', rgwsvar_def)
 
 File.write 'inventory', inventory
 
