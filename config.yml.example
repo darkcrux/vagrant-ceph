@@ -20,6 +20,10 @@ ceph:
       monitor_interface: eth1
       # uncomment this if using only 1 node
       common_single_host_mode: true
+      radosgw_keystone: true
+      radosgw_keystone_admin_token: ??
+      radosgw_keystone_accepted_roles: Member, _member_, admin
+      radosgw_civetweb_port: 80
     mons:
       # generate with `python ceph-key.py` 
       monitor_secret: AQBK5NdVAAAAABAAKR126FNE6uQxRdnSBuxrag==
@@ -29,12 +33,6 @@ ceph:
       journal_collocation: true
       journal_size: 1000
       # devices will be added based on `osd_per_node`, no need to add here.
-    rgws:
-      radosgw_keystone: true
-      radosgw_keystone_admin_token: ??
-      radosgw_keystone_accepted_roles: Member, _member_, admin
-      radosgw_civetweb_port: 80
-
 vm:
   cpus: 1
   memory: 512
