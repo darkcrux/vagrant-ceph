@@ -12,6 +12,9 @@ inventory_template = %{
 [osds]
 %osds%
 
+[rgws]
+%rgws%
+
 [all:vars]
 %vars%
 
@@ -39,6 +42,7 @@ ceph_config['ceph']['vars']['osds']['devices'] = devices
 nodes_def = public_ips.each_with_index.map { |ip,i| "ceph#{i} ansible_ssh_host=#{ip}" }.join("\n")
 mon_def = mon_count.times.to_a.map { |i| "ceph#{i}" }.join("\n")
 osd_def = cluster_size.times.to_a.map { |i| "ceph#{i}" }.join("\n")
+rgw_def = 'ceph0'
 var_def = ceph_config['ceph']['vars']['all'].map{ |k,v| "#{k}=#{v}" }.join("\n")
 monsvar_def = ceph_config['ceph']['vars']['mons'].map{ |k,v| "#{k}=#{v}" }.join("\n")
 osdsvar_def = ceph_config['ceph']['vars']['osds'].map{ |k,v| "#{k}=#{v}" }.join("\n")
@@ -46,6 +50,7 @@ osdsvar_def = ceph_config['ceph']['vars']['osds'].map{ |k,v| "#{k}=#{v}" }.join(
 inventory = inventory_template.gsub('%nodes%', nodes_def)
 inventory = inventory.gsub('%mons%', mon_def)
 inventory = inventory.gsub('%osds%', osd_def)
+inventory = inventory.gsub('%rgws%', rgw_def)
 inventory = inventory.gsub('%vars%',  var_def)
 inventory = inventory.gsub('%mons_vars%', monsvar_def)
 inventory = inventory.gsub('%osds_vars%', osdsvar_def)
